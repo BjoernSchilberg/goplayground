@@ -24,12 +24,12 @@ type Time struct {
 	Time string
 }
 
-func logRequest(r *http.Request) string {
+func logRequest(r *http.Request) {
 	requestDump, err := httputil.DumpRequest(r, true)
 	if err != nil {
 		fmt.Println(err)
 	}
-	return string(requestDump)
+	log.Println(string(requestDump))
 }
 
 func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
@@ -46,7 +46,7 @@ func timeHandler(format string) http.HandlerFunc {
 
 		respondWithJSON(w, http.StatusOK, time)
 
-		log.Println(logRequest(r))
+		logRequest(r)
 	}
 }
 
