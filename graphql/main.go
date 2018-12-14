@@ -9,20 +9,29 @@ import (
 
 func main() {
 
-	// GraphQL models
-	songType := graphql.NewObject(graphql.ObjectConfig{
-		Name: "Song",
+	// GraphQL model
+	pirateType := graphql.NewObject(graphql.ObjectConfig{
+		Name: "Pirate",
 		Fields: graphql.Fields{
 			"id": &graphql.Field{
 				Type: graphql.String,
 			},
-			"album": &graphql.Field{
+			"name": &graphql.Field{
 				Type: graphql.String,
 			},
-			"title": &graphql.Field{
+			"life": &graphql.Field{
 				Type: graphql.String,
 			},
-			"duration": &graphql.Field{
+			"yearsactive": &graphql.Field{
+				Type: graphql.String,
+			},
+			"country": &graphql.Field{
+				Type: graphql.String,
+			},
+			"comments": &graphql.Field{
+				Type: graphql.String,
+			},
+			"wikipedia": &graphql.Field{
 				Type: graphql.String,
 			},
 		},
@@ -31,10 +40,10 @@ func main() {
 	rootQuery := graphql.NewObject(graphql.ObjectConfig{
 		Name: "Query",
 		Fields: graphql.Fields{
-			"songs": &graphql.Field{
-				Type: graphql.NewList(songType),
+			"pirates": &graphql.Field{
+				Type: graphql.NewList(pirateType),
 				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-					return songs, nil
+					return pirates, nil
 				},
 			},
 		},
