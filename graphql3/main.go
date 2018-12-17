@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -11,17 +12,22 @@ import (
 
 func Filter(data []Pirate, args map[string]interface{}) []Pirate {
 	vsf := make([]Pirate, 0)
-	for _, p := range data {
-		for k, v := range args {
-			structMap := structs.Map(p)
-			if structMap[strings.Title(k)] != v {
-				break
-			}
-			vsf = append(vsf, p)
-		}
+	if len(args) != 0 {
 
+		for _, p := range data {
+			fmt.Println(p)
+			for k, v := range args {
+				structMap := structs.Map(p)
+				if structMap[strings.Title(k)] != v {
+					break
+				}
+				vsf = append(vsf, p)
+			}
+
+		}
+		return vsf
 	}
-	return vsf
+	return data
 }
 
 func main() {
