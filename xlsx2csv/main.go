@@ -24,9 +24,9 @@ func generateCSVFromXLSXFile(excelFileName string, sheetIndex int, outputf outpu
 	sheetLen := len(xlFile.Sheets)
 	switch {
 	case sheetLen == 0:
-		return errors.New("This XLSX file contains no sheets.")
+		return errors.New("This XLSX file contains no sheets")
 	case sheetIndex >= sheetLen:
-		return fmt.Errorf("No sheet %d available, please select a sheet between 0 and %d\n", sheetIndex, sheetLen-1)
+		return fmt.Errorf("No sheet %d available, please select a sheet between 0 and %d", sheetIndex, sheetLen-1)
 	}
 	sheet := xlFile.Sheets[sheetIndex]
 	for _, row := range sheet.Rows {
