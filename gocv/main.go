@@ -1,0 +1,61 @@
+package main
+
+import (
+	"fmt"
+	"log"
+	"net/http"
+	_ "net/http/pprof"
+
+	"github.com/hybridgroup/mjpeg"
+	"gocv.io/x/gocv"
+)
+
+var (
+	deviceID int
+	err      error
+	webcam   *gocv.VideoCapture
+	stream   *mjpeg.Stream
+)
+
+func mjpegCapture() {
+	img := gocv.NewMat()
+	defer img.Close()
+
+	for {
+		if ok := webcam.Read(&img); !ok {
+			fmt.Printf("Device closed: %v\n", deviceID)
+			return
+		}
+		if img.Empty() {
+			continue
+		}
+		buf, _ := gocv.IMEncode(".jpg", img)
+		stream.UpdateJPEG(buf)
+
+	}
+
+}
+
+func main() {
+	deviceID = 0
+	host := "0.0.0.0:8082"
+
+	webcam, err = gocv.OpenVideoCapture(deviceID)
+	if err != nil {
+		fmt.Printf("Error opening video capture device: %v\n", deviceID)
+		return
+
+	}
+
+	defer webcam.Close()
+
+	stream = mjpeg.NewStream()
+
+	go mjpegCapture()
+
+	fmt.Println("Capturing, point your browser to", host)
+
+	http.Handle("/", stream)
+	log.Fatal(http.ListenAndServe(host, nil))
+
+}
