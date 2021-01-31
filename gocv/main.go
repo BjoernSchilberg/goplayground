@@ -49,6 +49,14 @@ func main() {
 
 	defer webcam.Close()
 
+	width := 320
+	height := float64(width) * 0.75
+
+	webcam.Set(3, float64(width))
+	webcam.Set(4, float64(height))
+
+	//webcam.Set(5, 5) // fps
+
 	stream = mjpeg.NewStream()
 
 	go mjpegCapture()
