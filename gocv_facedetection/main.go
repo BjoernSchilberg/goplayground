@@ -57,6 +57,7 @@ func faceDetect() {
 		// detect faces
 		rects := classifier.DetectMultiScale(img)
 		fmt.Printf("%v faces found\n", len(rects))
+		fmt.Printf("fps: %v\n", webcam.Get(gocv.VideoCaptureFPS))
 
 		// draw a rectangle around each face on the original image,
 		// along with text identifing as "Human"
@@ -87,7 +88,7 @@ func main() {
 
 	defer webcam.Close()
 
-	width := 320
+	width := 640
 	height := float64(width) * 0.75
 
 	webcam.Set(3, float64(width))
